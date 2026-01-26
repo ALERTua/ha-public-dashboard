@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const API_BASE = process.env.REACT_APP_API_URL || '';
+const API_BASE = process.env.REACT_APP_API_URL || '/addon-api';
 
 function App() {
   const [userEntities, setUserEntities] = useState([]);
@@ -39,7 +39,7 @@ function App() {
 
   const fetchUserDashboard = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/dashboard`);
+      const response = await axios.get(`${API_BASE}/dashboard`);
       setUserEntities(response.data.entities);
       setError(null);
     } catch (err) {
@@ -51,7 +51,7 @@ function App() {
 
   const fetchAdminDashboard = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/admin/dashboard`, axiosConfig);
+      const response = await axios.get(`${API_BASE}/admin/dashboard`, axiosConfig);
       setAdminEntities(response.data.entities);
     } catch (err) {
       console.error('Failed to fetch admin dashboard');
@@ -60,7 +60,7 @@ function App() {
 
   const fetchLinks = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/links`);
+      const response = await axios.get(`${API_BASE}/links`);
       setLinks(response.data.links);
     } catch (err) {
       console.error('Failed to fetch links');
@@ -69,7 +69,7 @@ function App() {
 
   const checkAuth = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/me`, axiosConfig);
+      const response = await axios.get(`${API_BASE}/me`, axiosConfig);
       if (response.data.authenticated) {
         setUser(response.data);
       } else {
@@ -83,7 +83,7 @@ function App() {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post(`${API_BASE}/api/login`, { username, password });
+      const response = await axios.post(`${API_BASE}/login`, { username, password });
       localStorage.setItem('token', response.data.access_token);
       setShowLogin(false);
       await checkAuth();
@@ -104,7 +104,7 @@ function App() {
 
   const toggleEntity = async (entityId, action = 'toggle') => {
     try {
-      await axios.post(`${API_BASE}/api/admin/toggle/${entityId}`, 
+      await axios.post(`${API_BASE}/admin/toggle/${entityId}`, 
         { action }, 
         axiosConfig
       );
@@ -117,7 +117,7 @@ function App() {
   const deleteEntity = async (entityId, dashboard) => {
     try {
       await axios.delete(
-        `${API_BASE}/api/admin/entities/${entityId}?dashboard=${dashboard}`,
+        `${API_BASE}/admin/entities/${entityId}?dashboard=${dashboard}`,
         axiosConfig
       );
       fetchUserDashboard();
@@ -130,7 +130,7 @@ function App() {
   const deleteLink = async (linkIndex) => {
     try {
       await axios.delete(
-        `${API_BASE}/api/admin/links/${linkIndex}`,
+        `${API_BASE}/admin/links/${linkIndex}`,
         axiosConfig
       );
       fetchLinks();
@@ -407,7 +407,7 @@ function EntityManager({ onClose, onUpdate }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL || ''}/api/admin/entities/search?query=${searchQuery}`,
+        `${API_BASE}/admin/entities/search?query=${searchQuery}`,
         axiosConfig
       );
       setSearchResults(response.data.entities);
@@ -421,7 +421,7 @@ function EntityManager({ onClose, onUpdate }) {
   const addEntity = async (entity, dashboard) => {
     try {
       await axios.post(
-        `${process.env.REACT_APP_API_URL || ''}/api/admin/entities/add`,
+        `${API_BASE}/admin/entities/add`,
         {
           entity_id: entity.entity_id,
           display_name: entity.friendly_name,
@@ -504,7 +504,7 @@ function LinkManager({ onClose, onUpdate }) {
     
     try {
       await axios.post(
-        `${process.env.REACT_APP_API_URL || ''}/api/admin/links/add`,
+        `${API_BASE}/admin/links/add`,
         {
           text: text.trim(),
           url: url.trim() || null

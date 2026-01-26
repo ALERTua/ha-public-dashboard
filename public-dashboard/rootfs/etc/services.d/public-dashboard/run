@@ -6,12 +6,14 @@ bashio::log.info "Starting Public Dashboard backend..."
 ADMIN_PASSWORD=$(bashio::config 'admin_password')
 LOG_LEVEL=$(bashio::config 'log_level')
 
-# Export environment variables
+# Export environment variables for Home Assistant integration
 export ADMIN_PASSWORD
 export LOG_LEVEL
+export HA_URL="http://supervisor/core"
+export HA_TOKEN="${SUPERVISOR_TOKEN}"
 
 # Change to app directory
 cd /app
 
 # Start the application
-exec python3 main.py
+exec python3 addon_main.py
