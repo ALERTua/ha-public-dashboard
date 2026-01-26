@@ -19,5 +19,8 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Set execute permissions for service scripts
+RUN chmod +x /etc/services.d/*/run
+
 # Install Python requirements
 RUN pip3 install --no-cache-dir --break-system-packages -r /app/requirements.txt
