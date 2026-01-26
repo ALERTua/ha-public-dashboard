@@ -21,6 +21,8 @@ ports_description:
   8000/tcp: Backend API (internal)
 map:
   - config:rw
+hassio_api: true
+homeassistant_api: true
 options:
   admin_password: admin123
   log_level: info

@@ -6,6 +6,9 @@ bashio::log.info "Starting Public Dashboard backend..."
 ADMIN_PASSWORD=$(bashio::config 'admin_password')
 LOG_LEVEL=$(bashio::config 'log_level')
 
+# Debug token availability
+bashio::log.info "SUPERVISOR_TOKEN available: $([ -n "$SUPERVISOR_TOKEN" ] && echo 'YES' || echo 'NO')"
+
 # Export environment variables for Home Assistant integration
 export ADMIN_PASSWORD
 export LOG_LEVEL
