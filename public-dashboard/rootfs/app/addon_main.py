@@ -4,9 +4,9 @@ import logging
 import hashlib
 import secrets
 from datetime import datetime, timedelta, timezone
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any
 import httpx
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.staticfiles import StaticFiles
@@ -56,7 +56,7 @@ if "links" not in dashboard_config:
     dashboard_config["links"] = []
 
 # Setup
-app = FastAPI(title="Building Dashboard API")
+app = FastAPI(title="Public Dashboard API")
 security = HTTPBearer()
 
 # Serve static files first
