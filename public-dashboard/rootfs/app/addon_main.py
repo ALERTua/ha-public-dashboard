@@ -3,7 +3,7 @@ import yaml
 import logging
 import hashlib
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional, Dict, Any, List
 import httpx
 from fastapi import FastAPI, HTTPException, Depends, status
@@ -125,7 +125,7 @@ class ToggleRequest(BaseModel):
 # Auth functions
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(hours=JWT_EXPIRE_HOURS)
+    expire = datetime.now(timezone.utc) + timedelta(hours=JWT_EXPIRE_HOURS)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
@@ -264,7 +264,7 @@ async def get_user_dashboard():
                     controllable=False
                 ))
         
-        return {"entities": entities, "last_updated": datetime.utcnow().isoformat()}
+        return {"entities": entities, "last_updated": datetime.now(timezone.utc).isoformat()}
     except Exception as e:
         logger.error(f"Failed to get user dashboard: {e}")
         raise HTTPException(status_code=503, detail="Service unavailable")
@@ -289,7 +289,7 @@ async def get_admin_dashboard(admin: dict = Depends(require_admin)):
                     controllable=is_controllable_entity(entity_id)
                 ))
         
-        return {"entities": entities, "last_updated": datetime.utcnow().isoformat()}
+        return {"entities": entities, "last_updated": datetime.now(timezone.utc).isoformat()}
     except Exception as e:
         logger.error(f"Failed to get admin dashboard: {e}")
         raise HTTPException(status_code=503, detail="Service unavailable")
@@ -422,7 +422,7 @@ async def toggle_entity(entity_id: str, request: ToggleRequest, admin: dict = De
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
+    return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 # Root route must be last to catch all remaining requests
 @app.get("/")
