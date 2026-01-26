@@ -11,6 +11,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   init:
@@ -55,6 +56,8 @@ jobs:
             echo "addons=[$changed]" >> $GITHUB_OUTPUT;
           else
             echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
+            echo "changed=true" >> $GITHUB_OUTPUT;
+            echo "addons=[\"public-dashboard\"]" >> $GITHUB_OUTPUT;
           fi
   build:
     runs-on: ubuntu-latest
