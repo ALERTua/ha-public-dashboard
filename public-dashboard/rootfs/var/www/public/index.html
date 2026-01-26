@@ -6,13 +6,32 @@
     <meta name="theme-color" content="#667eea" />
     <meta name="description" content="Building Dashboard - Monitor power, water, and heating systems" />
     <title>Building Dashboard</title>
+    <link rel="stylesheet" href="./src/App.css" />
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script type="text/babel" src="./src/index.js"></script>
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+      const API_BASE = '';
+      
+      // Your full App component code will go here
+      // For now, a simple version:
+      function App() {
+        return (
+          <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+            <h1>🏢 Галактика</h1>
+            <p>Dashboard is loading...</p>
+          </div>
+        );
+      }
+      
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
   </body>
 </html>
