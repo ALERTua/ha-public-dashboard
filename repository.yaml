@@ -1,0 +1,4 @@
+# https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
+name: Public Dashboard Add-on Repository
+url: 'https://github.com/ALERTua/ha-public-dashboard'
+maintainer: ALERTua <alertua@example.com>

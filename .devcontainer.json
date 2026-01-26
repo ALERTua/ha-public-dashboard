@@ -1,0 +1,11 @@
+{
+  "name": "Public Dashboard Add-on development",
+  "image": "ghcr.io/home-assistant/devcontainer:addons",
+  "appPort": ["7123:8123", "7357:4357"],
+  "postStartCommand": "bash devcontainer_bootstrap",
+  "extensions": ["ms-vscode.vscode-json", "redhat.vscode-yaml"],
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspaces/addon,type=bind,consistency=cached"
+  ],
+  "runArgs": ["-e", "GIT_EDITOR=code --wait", "--privileged"]
+}

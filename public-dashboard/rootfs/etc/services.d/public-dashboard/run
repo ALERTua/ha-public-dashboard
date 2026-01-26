@@ -1,0 +1,17 @@
+#!/usr/bin/with-contenv bashio
+
+bashio::log.info "Starting Public Dashboard backend..."
+
+# Get configuration
+ADMIN_PASSWORD=$(bashio::config 'admin_password')
+LOG_LEVEL=$(bashio::config 'log_level')
+
+# Export environment variables
+export ADMIN_PASSWORD
+export LOG_LEVEL
+
+# Change to app directory
+cd /app
+
+# Start the application
+exec python3 main.py

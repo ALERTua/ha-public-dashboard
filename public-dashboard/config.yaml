@@ -1,0 +1,39 @@
+# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
+name: Public Dashboard
+version: "1.0.0"
+slug: public-dashboard
+description: A secure, dynamic dashboard for building systems with admin entity management
+url: "https://github.com/ALERTua/ha-public-dashboard/tree/main/public-dashboard"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+boot: auto
+init: false
+ingress: true
+ingress_port: 8148
+panel_icon: mdi:view-dashboard
+panel_title: Public Dashboard
+webui: "[PROTO:ssl]://[HOST]:[PORT:8148]"
+ports:
+  8000/tcp: 8000
+ports_description:
+  8000/tcp: Backend API (internal)
+map:
+  - config:rw
+options:
+  admin_password: admin123
+  log_level: info
+  ssl: false
+  certfile: fullchain.pem
+  keyfile: privkey.pem
+schema:
+  admin_password: password
+  log_level: list(trace|debug|info|notice|warning|error|fatal)?
+  ssl: bool
+  certfile: str?
+  keyfile: str?
+image: "ghcr.io/alertua/public-dashboard-{arch}"
