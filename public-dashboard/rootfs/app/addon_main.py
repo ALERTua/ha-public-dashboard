@@ -9,6 +9,8 @@ import httpx
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from jose import JWTError, jwt
 
@@ -53,6 +55,9 @@ if "links" not in dashboard_config:
 # Setup
 app = FastAPI(title="Building Dashboard API")
 security = HTTPBearer()
+
+# Serve static files first
+app.mount("/src", StaticFiles(directory="/var/www/src"), name="src")
 
 # Add CORS middleware
 app.add_middleware(
@@ -418,6 +423,11 @@ async def toggle_entity(entity_id: str, request: ToggleRequest, admin: dict = De
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
+
+# Root route must be last to catch all remaining requests
+@app.get("/")
+async def read_index():
+    return FileResponse('/var/www/public/index.html')
 
 if __name__ == "__main__":
     import uvicorn
