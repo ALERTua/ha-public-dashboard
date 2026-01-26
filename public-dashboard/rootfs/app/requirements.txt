@@ -6,3 +6,4 @@ httpx
 python-dotenv
 pydantic
 pyyaml
+passlib[bcrypt]
