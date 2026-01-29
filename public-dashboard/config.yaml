@@ -18,7 +18,7 @@ webui: "[PROTO:ssl]://[HOST]:[PORT:8148]"
 ports:
   8000/tcp: 8000
 ports_description:
-  8000/tcp: Backend API (internal)
+  8000/tcp: Web interface
 map:
   - config:rw
 hassio_api: true
