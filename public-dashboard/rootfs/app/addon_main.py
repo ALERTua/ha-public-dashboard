@@ -78,6 +78,12 @@ if os.path.exists(WWW_SRC_DIR):
 else:
     logger.warning(f"WWW_SRC_DIR not found: {WWW_SRC_DIR}")
 
+# Serve built static files
+if os.path.exists(os.path.join(WWW_PUBLIC_DIR, "static")):
+    app.mount("/static", StaticFiles(directory=os.path.join(WWW_PUBLIC_DIR, "static")), name="static")
+else:
+    logger.warning(f"Static files not found: {os.path.join(WWW_PUBLIC_DIR, 'static')}")
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
