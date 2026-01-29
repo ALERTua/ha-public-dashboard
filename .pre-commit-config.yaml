@@ -27,7 +27,9 @@ repos:
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.9.27
     hooks:
+#      - id: uv-lock
       - id: uv-lock
+        args: [--directory, public-dashboard/rootfs/app]
 
   - repo: https://github.com/abravalheri/validate-pyproject
     rev: v0.24.1

@@ -5,7 +5,7 @@ A secure, dynamic dashboard for building systems with admin entity management.
 ## Features
 
 - 🏢 **Dynamic Entity Management** - Admins can add any HA entity to dashboards
-- 📱 **Mobile-First Design** - Optimized for phones and tablets  
+- 📱 **Mobile-First Design** - Optimized for phones and tablets
 - 🔓 **Public Access** - View dashboard without login
 - 🔐 **Admin Controls** - Secure entity management and controls
 - 🔗 **Links Section** - Add custom links with optional URLs
@@ -16,7 +16,7 @@ A secure, dynamic dashboard for building systems with admin entity management.
 ### Method 1: Add Repository (Recommended)
 
 1. In Home Assistant: **Supervisor** → **Add-on Store**
-2. Click **⋮** → **Repositories** 
+2. Click **⋮** → **Repositories**
 3. Add: `https://github.com/ALERTua/ha-public-dashboard`
 4. Install "Public Dashboard"
 
@@ -45,7 +45,7 @@ admin_password: "your-secure-password"
 ### Dashboard Sections
 
 - **📊 Мешканець** - Public entities (sensors, status)
-- **🔧 Адмін** - Admin entities (controls, switches)  
+- **🔧 Адмін** - Admin entities (controls, switches)
 - **🔗 Посилання** - Custom links and information
 
 ## Security

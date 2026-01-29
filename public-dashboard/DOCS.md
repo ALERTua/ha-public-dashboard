@@ -21,7 +21,7 @@ The password for the admin user who can manage dashboard entities and controls.
 Controls the level of log output the add-on will produce. Valid options are:
 
 - `trace`: Shows every detail, very verbose
-- `debug`: Shows detailed debug information  
+- `debug`: Shows detailed debug information
 - `info`: Normal (default) log level
 - `notice`: Show only notices and warnings
 - `warning`: Show only warnings and errors

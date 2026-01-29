@@ -10,13 +10,13 @@ const getDisplayIcon = (iconString) => {
   if (!iconString?.startsWith('mdi:')) {
     return <Icon path={mdiIcons.mdiGauge} size={1.2} />;
   }
-  
+
   const iconName = 'mdi' + iconString
     .slice(4)
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join('');
-  
+
   const iconPath = mdiIcons[iconName];
   return iconPath ? <Icon path={iconPath} size={1.2} /> : <Icon path={mdiIcons.mdiGauge} size={1.2} />;
 };
@@ -124,8 +124,8 @@ function App() {
     const token = localStorage.getItem('token');
     const axiosConfig = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     try {
-      await axios.post(`${API_BASE}/api/admin/toggle/${entityId}`, 
-        { action }, 
+      await axios.post(`${API_BASE}/api/admin/toggle/${entityId}`,
+        { action },
         axiosConfig
       );
       fetchAdminDashboard();
@@ -200,7 +200,7 @@ function App() {
       {showLogin && !user && <LoginForm onLogin={login} onCancel={() => setShowLogin(false)} />}
 
       {showEntityManager && user?.role === 'admin' && (
-        <EntityManager 
+        <EntityManager
           onClose={() => setShowEntityManager(false)}
           onUpdate={() => {
             fetchUserDashboard();
@@ -210,7 +210,7 @@ function App() {
       )}
 
       {showLinkManager && user?.role === 'admin' && (
-        <LinkManager 
+        <LinkManager
           onClose={() => setShowLinkManager(false)}
           onUpdate={fetchLinks}
         />
@@ -222,9 +222,9 @@ function App() {
             <h2>📊 User</h2>
             <div className="entities-grid">
               {userEntities.map(entity => (
-                <EntityCard 
-                  key={entity.entity_id} 
-                  entity={entity} 
+                <EntityCard
+                  key={entity.entity_id}
+                  entity={entity}
                   showDelete={user?.role === 'admin'}
                   onDelete={(entityId) => deleteEntity(entityId, 'user')}
                 />
@@ -238,9 +238,9 @@ function App() {
             <h2>🔧 Admin</h2>
             <div className="entities-grid">
               {adminEntities.map(entity => (
-                <EntityCard 
-                  key={entity.entity_id} 
-                  entity={entity} 
+                <EntityCard
+                  key={entity.entity_id}
+                  entity={entity}
                   onToggle={entity.controllable ? toggleEntity : null}
                   showDelete={true}
                   onDelete={(entityId) => deleteEntity(entityId, 'admin')}
@@ -257,7 +257,7 @@ function App() {
               {links.map((link, index) => (
                 <div key={index} className="link-card">
                   {user?.role === 'admin' && (
-                    <button 
+                    <button
                       className="delete-btn"
                       onClick={() => deleteLink(index)}
                       title="Delete link"
@@ -346,7 +346,7 @@ function EntityCard({ entity, onToggle, onDelete, showDelete }) {
   return (
     <div className="entity-card">
       {showDelete && (
-        <button 
+        <button
           className="delete-btn"
           onClick={() => onDelete(entity.entity_id)}
           title="Delete entity"
@@ -356,15 +356,15 @@ function EntityCard({ entity, onToggle, onDelete, showDelete }) {
       )}
       <div className="entity-icon">{getDisplayIcon(entity.icon)}</div>
       <h3>{entity.display_name}</h3>
-      <div 
-        className="entity-state" 
+      <div
+        className="entity-state"
         style={{ color: getStateColor(entity.state, entity.entity_type) }}
       >
         {entity.state.toUpperCase()}
       </div>
       {onToggle && entity.controllable && (
         <div className="entity-controls">
-          <button 
+          <button
             className={`btn-control ${entity.state === 'on' ? 'active' : ''}`}
             onClick={() => onToggle(entity.entity_id, 'toggle')}
           >
@@ -388,7 +388,7 @@ function EntityManager({ onClose, onUpdate }) {
 
   const searchEntities = async () => {
     if (!searchQuery.trim()) return;
-    
+
     setLoading(true);
     try {
       const response = await axios.get(
@@ -429,7 +429,7 @@ function EntityManager({ onClose, onUpdate }) {
           <h3>Manage Dashboard Entities</h3>
           <button onClick={onClose} className="btn-secondary">Close</button>
         </div>
-        
+
         <div className="search-section">
           <div className="search-bar">
             <input
@@ -458,13 +458,13 @@ function EntityManager({ onClose, onUpdate }) {
                 </div>
               </div>
               <div className="entity-actions">
-                <button 
+                <button
                   onClick={() => addEntity(entity, 'user')}
                   className="btn-small btn-primary"
                 >
                   Add to User
                 </button>
-                <button 
+                <button
                   onClick={() => addEntity(entity, 'admin')}
                   className="btn-small btn-secondary"
                 >
@@ -488,7 +488,7 @@ function LinkManager({ onClose, onUpdate }) {
 
   const addLink = async () => {
     if (!text.trim()) return;
-    
+
     try {
       await axios.post(
         `${API_BASE}/api/admin/links/add`,
@@ -513,7 +513,7 @@ function LinkManager({ onClose, onUpdate }) {
           <h3>Керування посиланнями</h3>
           <button onClick={onClose} className="btn-secondary">Close</button>
         </div>
-        
+
         <div className="search-section">
           <div className="link-form">
             <input
