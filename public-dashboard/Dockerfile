@@ -14,13 +14,21 @@ RUN \
     apk add --no-cache \
         python3 \
         py3-pip \
-        nginx
+        nginx \
+        nodejs \
+        npm
 
 # Copy root filesystem
 COPY rootfs /
+
+# Build React app
+WORKDIR /var/www
+RUN npm install && npm run build
 
 # Set execute permissions for service scripts
 RUN chmod +x /etc/services.d/*/run
 
 # Install Python requirements
 RUN pip3 install --no-cache-dir --break-system-packages -r /app/requirements.txt
+
+WORKDIR /
