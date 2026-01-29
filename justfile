@@ -49,6 +49,10 @@ start: fe-install be-install
 
 # === UTILITY COMMANDS ===
 
+# Update version across all files
+version VERSION:
+    uv run python scripts\update_version.py {{VERSION}}
+
 # Show available commands
 help:
     @just --list
