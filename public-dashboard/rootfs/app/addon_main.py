@@ -89,7 +89,7 @@ else:
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,  # ty:ignore[invalid-argument-type]
-    allow_origins=["*"],  # Allow all origins for ingress compatibility
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
