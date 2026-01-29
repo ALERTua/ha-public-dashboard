@@ -31,15 +31,15 @@ fe-test: fe-build
 
 # Install backend dependencies
 be-install:
-    uv pip install -r public-dashboard\rootfs\app\requirements.txt
+    uv sync --directory public-dashboard\rootfs\app
 
 # Start backend server
 be-start:
-    uv run --directory public-dashboard\rootfs\app python addon_main.py
+    uv run --directory public-dashboard\rootfs\app addon_main.py
 
 # Start backend with development mode (uses .env)
 be-dev:
-    uv run --directory public-dashboard\rootfs\app python addon_main.py
+    uv run --directory public-dashboard\rootfs\app addon_main.py
 
 # === COMBINED COMMANDS ===
 

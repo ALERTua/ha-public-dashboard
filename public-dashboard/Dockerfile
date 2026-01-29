@@ -12,11 +12,13 @@ RUN \
 # Install requirements for add-on
 RUN \
     apk add --no-cache \
-        python3 \
-        py3-pip \
+#        python3 \
         nginx \
         nodejs \
         npm
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 # Copy root filesystem
 COPY rootfs /
@@ -29,6 +31,7 @@ RUN npm install && npm run build
 RUN chmod +x /etc/services.d/*/run
 
 # Install Python requirements
-RUN pip3 install --no-cache-dir --break-system-packages -r /app/requirements.txt
+WORKDIR /app
+RUN uv sync --frozen --no-dev
 
 WORKDIR /

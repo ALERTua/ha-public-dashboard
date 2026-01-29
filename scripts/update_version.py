@@ -2,6 +2,7 @@
 import sys
 import re
 import json
+import subprocess
 from pathlib import Path
 
 def update_version(new_version):
@@ -20,6 +21,10 @@ def update_version(new_version):
     data['version'] = new_version
     with open(package_file, 'w') as f:
         json.dump(data, f, indent=2)
+    
+    # Update pyproject.toml using uv
+    pyproject_dir = root / "public-dashboard" / "rootfs" / "app"
+    subprocess.run(["uv", "version", new_version], cwd=pyproject_dir, check=True)
     
     print(f"Updated version to {new_version}")
 
