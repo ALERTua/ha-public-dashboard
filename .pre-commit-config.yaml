@@ -27,7 +27,7 @@ repos:
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.9.27
     hooks:
-#      - id: uv-lock
+#      - id: uv-lock  # https://github.com/astral-sh/uv/issues/9150
       - id: uv-lock
         args: [--directory, public-dashboard/rootfs/app]
 
