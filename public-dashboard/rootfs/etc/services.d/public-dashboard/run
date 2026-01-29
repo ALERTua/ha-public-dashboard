@@ -18,5 +18,5 @@ export HA_TOKEN="${SUPERVISOR_TOKEN}"
 # Change to app directory
 cd /app
 
-# Start the application
-exec python3 addon_main.py
+# Start the application with uv
+exec uv run python addon_main.py
