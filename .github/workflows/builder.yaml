@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     if: needs.init.outputs.changed == 'true'
     needs: init
-    name: Build ${{ matrix.addon }} add-on
+    name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
     strategy:
       matrix:
         addon: ${{ fromJson(needs.init.outputs.changed_addons) }}
