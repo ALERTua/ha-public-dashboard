@@ -28,7 +28,7 @@ JWT_EXPIRE_HOURS = 24
 
 # Path configuration - use environment variables for flexibility
 WWW_SRC_DIR = os.getenv("WWW_SRC_DIR", "/var/www/src")
-WWW_PUBLIC_DIR = os.getenv("WWW_PUBLIC_DIR", "/var/www/public")
+WWW_PUBLIC_DIR = os.getenv("WWW_PUBLIC_DIR", "/var/www/build")
 CONFIG_DIR = os.getenv("CONFIG_DIR", "/config")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "public_dashboard_config.yaml")
 
