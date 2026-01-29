@@ -89,7 +89,7 @@ else:
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,  # ty:ignore[invalid-argument-type]
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -609,4 +609,4 @@ async def read_index() -> FileResponse | dict:
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8001)

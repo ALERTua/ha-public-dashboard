@@ -37,6 +37,25 @@ A mobile-first dashboard that allows:
 - Custom links and information sections
 - Ukrainian interface with emoji icons
 
+## Access Methods
+
+The add-on supports multiple access methods:
+
+### 1. Home Assistant Ingress (Recommended)
+- Access via Home Assistant sidebar panel
+- Automatic authentication with Home Assistant
+- No additional configuration required
+
+### 2. Direct Port Access
+- Access via `http://YOUR_HA_IP:8000`
+- Useful for public dashboards or kiosks
+- Enable port in add-on configuration
+
+### 3. Reverse Proxy
+- Point your reverse proxy to `http://YOUR_HA_IP:8000`
+- Supports external domain access
+- Compatible with nginx, Traefik, etc.
+
 ## Support
 
 Got questions?

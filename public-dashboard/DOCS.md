@@ -10,6 +10,30 @@ certfile: fullchain.pem
 keyfile: privkey.pem
 ```
 
+## Access Methods
+
+The Public Dashboard add-on supports multiple access methods:
+
+### 1. Home Assistant Ingress (Recommended)
+- Access via Home Assistant sidebar panel
+- Automatic authentication with Home Assistant
+- No additional configuration required
+- Most secure option
+
+### 2. Direct Port Access
+- Access via `http://YOUR_HA_IP:8000`
+- Enable port 8000 in the "Network" section of the add-on configuration
+- Useful for public dashboards, kiosks, or direct access
+- No Home Assistant authentication required
+
+### 3. Reverse Proxy
+- Point your reverse proxy to `http://YOUR_HA_IP:8000`
+- Enable port 8000 in the "Network" section of the add-on configuration
+- Supports external domain access
+- Compatible with nginx, Traefik, Caddy, etc.
+
+## Configuration Options
+
 ### Option: `admin_password` (required)
 
 The password for the admin user who can manage dashboard entities and controls.
@@ -48,10 +72,17 @@ The private key file to use for SSL. Only used when `ssl` is enabled.
 
 ## Example configurations
 
-### Basic configuration
+### Basic configuration (Ingress only)
 
 ```yaml
 admin_password: mySecurePassword123
+```
+
+### Configuration with direct port access
+
+```yaml
+admin_password: mySecurePassword123
+# Enable port 8000 in Network section
 ```
 
 ### Advanced configuration with SSL
