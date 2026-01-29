@@ -26,8 +26,6 @@ def update_version(new_version: str) -> None:
     with package_file.open("w") as f:
         json.dump(data, f, indent=2)
 
-    subprocess.run(["uv", "version", new_version], cwd=root, check=True)  # noqa: S603, S607
-
     # Update pyproject.toml using uv
     pyproject_dir = root / "public-dashboard" / "rootfs" / "app"
     subprocess.run(["uv", "version", new_version], cwd=pyproject_dir, check=True)  # noqa: S603, S607
