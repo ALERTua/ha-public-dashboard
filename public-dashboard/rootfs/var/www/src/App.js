@@ -1,8 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Icon from '@mdi/react';
+import * as mdiIcons from '@mdi/js';
 import './App.css';
 
 const API_BASE = process.env.REACT_APP_API_URL || '';
+
+const getDisplayIcon = (iconString) => {
+  if (!iconString?.startsWith('mdi:')) {
+    return <Icon path={mdiIcons.mdiGauge} size={1.2} />;
+  }
+  
+  const iconName = 'mdi' + iconString
+    .slice(4)
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join('');
+  
+  const iconPath = mdiIcons[iconName];
+  return iconPath ? <Icon path={iconPath} size={1.2} /> : <Icon path={mdiIcons.mdiGauge} size={1.2} />;
+};
 
 function App() {
   const [userEntities, setUserEntities] = useState([]);
@@ -14,9 +31,6 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showEntityManager, setShowEntityManager] = useState(false);
   const [showLinkManager, setShowLinkManager] = useState(false);
-
-  const token = localStorage.getItem('token');
-  const axiosConfig = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
   useEffect(() => {
     fetchUserDashboard();
@@ -50,6 +64,8 @@ function App() {
   };
 
   const fetchAdminDashboard = async () => {
+    const token = localStorage.getItem('token');
+    const axiosConfig = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     try {
       const response = await axios.get(`${API_BASE}/api/admin/dashboard`, axiosConfig);
       setAdminEntities(response.data.entities);
@@ -68,6 +84,8 @@ function App() {
   };
 
   const checkAuth = async () => {
+    const token = localStorage.getItem('token');
+    const axiosConfig = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     try {
       const response = await axios.get(`${API_BASE}/api/me`, axiosConfig);
       if (response.data.authenticated) {
@@ -88,7 +106,7 @@ function App() {
       setShowLogin(false);
       await checkAuth();
       // Refresh dashboards after login
-      fetchUserDashboard();
+      await fetchUserDashboard();
     } catch (err) {
       alert('Login failed');
     }
@@ -103,6 +121,8 @@ function App() {
   };
 
   const toggleEntity = async (entityId, action = 'toggle') => {
+    const token = localStorage.getItem('token');
+    const axiosConfig = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     try {
       await axios.post(`${API_BASE}/api/admin/toggle/${entityId}`, 
         { action }, 
@@ -115,6 +135,8 @@ function App() {
   };
 
   const deleteEntity = async (entityId, dashboard) => {
+    const token = localStorage.getItem('token');
+    const axiosConfig = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     try {
       await axios.delete(
         `${API_BASE}/api/admin/entities/${entityId}?dashboard=${dashboard}`,
@@ -128,6 +150,8 @@ function App() {
   };
 
   const deleteLink = async (linkIndex) => {
+    const token = localStorage.getItem('token');
+    const axiosConfig = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     try {
       await axios.delete(
         `${API_BASE}/api/admin/links/${linkIndex}`,
@@ -146,18 +170,18 @@ function App() {
   return (
     <div className="App">
       <header className="header">
-        <h1>🏢 Галактика</h1>
+        <h1>🏢 Public Dashboard</h1>
         {user ? (
           <div className="user-info">
             <span>{user.username} ({user.role})</span>
             {user.role === 'admin' && (
               <button onClick={() => setShowEntityManager(!showEntityManager)} className="btn-secondary">
-                {showEntityManager ? 'Close Manager' : 'Редагувати картки'}
+                {showEntityManager ? 'Close Manager' : 'Edit Cards'}
               </button>
             )}
             {user.role === 'admin' && (
               <button onClick={() => setShowLinkManager(!showLinkManager)} className="btn-secondary">
-                {showLinkManager ? 'Close Links' : 'Посилання'}
+                {showLinkManager ? 'Close Links' : 'Links'}
               </button>
             )}
             <button onClick={logout} className="btn-secondary">Logout</button>
@@ -195,7 +219,7 @@ function App() {
       <main className="dashboard">
         {userEntities.length > 0 && (
           <div className="dashboard-section">
-            <h2>📊 Мешканець</h2>
+            <h2>📊 User</h2>
             <div className="entities-grid">
               {userEntities.map(entity => (
                 <EntityCard 
@@ -211,7 +235,7 @@ function App() {
 
         {user?.role === 'admin' && adminEntities.length > 0 && (
           <div className="dashboard-section">
-            <h2>🔧 Адмін</h2>
+            <h2>🔧 Admin</h2>
             <div className="entities-grid">
               {adminEntities.map(entity => (
                 <EntityCard 
@@ -228,7 +252,7 @@ function App() {
 
         {links.length > 0 && (
           <div className="dashboard-section">
-            <h2>🔗 Посилання</h2>
+            <h2>🔗 Links</h2>
             <div className="links-grid">
               {links.map((link, index) => (
                 <div key={index} className="link-card">
@@ -319,27 +343,6 @@ function EntityCard({ entity, onToggle, onDelete, showDelete }) {
     return '#9E9E9E';
   };
 
-  const getDisplayIcon = (iconString) => {
-    // Convert MDI icons to emoji
-    const iconMap = {
-      'mdi:power-plug': '⚡',
-      'mdi:water-pump': '💧',
-      'mdi:fire': '🔥',
-      'mdi:lightbulb': '💡',
-      'mdi:toggle-switch': '🔘',
-      'mdi:gauge': '📊',
-      'mdi:checkbox-marked-circle': '✅',
-      'mdi:help': '❓',
-      'mdi:thermometer': '🌡️',
-      'mdi:home': '🏠',
-      'mdi:motion-sensor': '👁️',
-      'mdi:store': '🏪',
-      'mdi:creation': '⭐'
-    };
-    
-    return iconMap[iconString] || '📊';
-  };
-
   return (
     <div className="entity-card">
       {showDelete && (
@@ -381,25 +384,7 @@ function EntityManager({ onClose, onUpdate }) {
   const token = localStorage.getItem('token');
   const axiosConfig = { headers: { Authorization: `Bearer ${token}` } };
 
-  const getDisplayIcon = (iconString) => {
-    const iconMap = {
-      'mdi:power-plug': '⚡',
-      'mdi:water-pump': '💧',
-      'mdi:fire': '🔥',
-      'mdi:lightbulb': '💡',
-      'mdi:toggle-switch': '🔘',
-      'mdi:gauge': '📊',
-      'mdi:checkbox-marked-circle': '✅',
-      'mdi:help': '❓',
-      'mdi:thermometer': '🌡️',
-      'mdi:home': '🏠',
-      'mdi:motion-sensor': '👁️',
-      'mdi:store': '🏪',
-      'mdi:creation': '⭐'
-    };
-    
-    return iconMap[iconString] || '📊';
-  };
+
 
   const searchEntities = async () => {
     if (!searchQuery.trim()) return;
@@ -464,7 +449,9 @@ function EntityManager({ onClose, onUpdate }) {
           {searchResults.map(entity => (
             <div key={entity.entity_id} className="search-result">
               <div className="entity-info">
-                <span className="entity-icon">{getDisplayIcon(entity.icon)}</span>
+                <span className="entity-icon">
+                  {getDisplayIcon(entity.icon)}
+                </span>
                 <div>
                   <div className="entity-name">{entity.friendly_name}</div>
                   <div className="entity-id">{entity.entity_id}</div>

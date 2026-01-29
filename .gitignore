@@ -48,6 +48,7 @@ setup-dev.sh
 setup-dev.bat
 TESTING.md
 HA_ADDON_AUTH.md
+dev-config/
 
 # Generated files
 dashboard_config.yaml

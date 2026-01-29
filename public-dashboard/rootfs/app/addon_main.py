@@ -5,6 +5,7 @@ import hashlib
 import secrets
 from datetime import datetime, timedelta, timezone
 from typing import Optional, Dict, Any
+from pathlib import Path
 import httpx
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,14 +14,23 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from jose import JWTError, jwt
+from dotenv import load_dotenv
 
-# Configuration
+# Load environment variables from .env file
+load_dotenv()
+
+# Configuration with environment variable defaults
 HA_URL = os.getenv("HA_URL", "http://supervisor/core")
 HA_TOKEN = os.getenv("HA_TOKEN") or os.getenv("SUPERVISOR_TOKEN")
-# Generate JWT secret automatically
 JWT_SECRET = secrets.token_urlsafe(32)
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_HOURS = 24
+
+# Path configuration - use environment variables for flexibility
+WWW_SRC_DIR = os.getenv("WWW_SRC_DIR", "/var/www/src")
+WWW_PUBLIC_DIR = os.getenv("WWW_PUBLIC_DIR", "/var/www/public")
+CONFIG_DIR = os.getenv("CONFIG_DIR", "/config")
+CONFIG_FILE = os.path.join(CONFIG_DIR, "public_dashboard_config.yaml")
 
 logger = logging.getLogger(__name__)
 logger.info(f"HA_URL: {HA_URL}")
@@ -37,15 +47,18 @@ dashboard_config = {
 # Load dashboard config from file
 def load_dashboard_config():
     try:
-        with open('/config/public_dashboard_config.yaml', 'r', encoding='utf-8') as f:
+        with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
             return yaml.safe_load(f) or {"user_entities": [], "admin_entities": []}
     except FileNotFoundError:
+        # Create config directory if it doesn't exist
+        os.makedirs(CONFIG_DIR, exist_ok=True)
         return {"user_entities": [], "admin_entities": [], "links": []}
 
 
 # Save dashboard config to file
 def save_dashboard_config():
-    with open('/config/public_dashboard_config.yaml', 'w', encoding='utf-8') as f:
+    os.makedirs(CONFIG_DIR, exist_ok=True)
+    with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
         yaml.dump(dashboard_config, f, default_flow_style=False, indent=2, allow_unicode=True)
 
 
@@ -59,8 +72,11 @@ if "links" not in dashboard_config:
 app = FastAPI(title="Public Dashboard API")
 security = HTTPBearer()
 
-# Serve static files first
-app.mount("/src", StaticFiles(directory="/var/www/src"), name="src")
+# Serve static files - check if directory exists first
+if os.path.exists(WWW_SRC_DIR):
+    app.mount("/src", StaticFiles(directory=WWW_SRC_DIR), name="src")
+else:
+    logger.warning(f"WWW_SRC_DIR not found: {WWW_SRC_DIR}")
 
 # Add CORS middleware
 app.add_middleware(
@@ -463,7 +479,10 @@ async def health_check():
 # Root route must be last to catch all remaining requests
 @app.get("/")
 async def read_index():
-    return FileResponse('/var/www/public/index.html')
+    index_file = os.path.join(WWW_PUBLIC_DIR, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return {"error": "index.html not found", "path": index_file}
 
 
 if __name__ == "__main__":

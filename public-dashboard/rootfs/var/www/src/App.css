@@ -147,7 +147,7 @@ body {
 
 .entities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
   gap: 1.5rem;
   justify-content: center;
 }
@@ -155,7 +155,7 @@ body {
 /* Links section */
 .links-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
   gap: 1.5rem;
   justify-content: center;
 }
@@ -169,8 +169,8 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: auto;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -204,8 +204,8 @@ body {
 /* Entity card delete button */
 .delete-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 4px;
+  right: 4px;
   background: #f44336;
   color: white;
   border: none;
@@ -229,13 +229,13 @@ body {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 0.7rem;
   text-align: center;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: auto;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -246,13 +246,11 @@ body {
 }
 
 .entity-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.5rem;
 }
 
 .entity-card h3 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
   color: #666;
 }
 
@@ -260,8 +258,6 @@ body {
   font-size: 1.2rem;
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 0.5rem;
 }
 
 .entity-controls {
@@ -384,14 +380,6 @@ body {
 
 .empty-state p {
   font-size: 1.1rem;
-}
-
-/* Footer */
-.footer {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-  margin-top: 2rem;
 }
 
 /* Loading & Error */
