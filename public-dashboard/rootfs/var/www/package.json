@@ -1,6 +1,6 @@
 {
   "name": "building-dashboard",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "./",
   "private": true,
   "dependencies": {
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "PUBLIC_URL=. react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

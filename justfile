@@ -17,6 +17,10 @@ fe-dev:
 fe-build:
     pushd public-dashboard\rootfs\var\www && npm run build & popd
 
+# Build frontend for production (Windows with PUBLIC_URL)
+fe-build-win:
+    pushd public-dashboard\rootfs\var\www && set PUBLIC_URL=. && npm run build & popd
+
 # Clean node_modules and reinstall
 fe-clean:
     rmdir /s /q public-dashboard\rootfs\var\www\node_modules 2>nul || echo "node_modules not found"
@@ -31,20 +35,28 @@ fe-test: fe-build
 
 # Install backend dependencies
 be-install:
-    uv sync --directory public-dashboard\rootfs\app
+    uv sync
 
 # Start backend server
 be-start:
-    uv run --directory public-dashboard\rootfs\app addon_main.py
+    uv run public-dashboard\rootfs\app\addon_main.py
 
 # Start backend with development mode (uses .env)
 be-dev:
-    uv run --directory public-dashboard\rootfs\app addon_main.py
+    pushd public-dashboard\rootfs\app && uv run addon_main.py & popd
+
+# Run pre-commit
+lint:
+    uv run pre-commit run --all-files
+
+# Install pre-commit hooks
+be-setup:
+    uv sync --dev
 
 # === COMBINED COMMANDS ===
 
-# Start both frontend and backend (requires two terminals)
-start: fe-install be-install
+# Combined setup command
+start: fe-install be-setup
     @echo "Run 'just be-start' in one terminal and 'just fe-dev' in another"
 
 # === UTILITY COMMANDS ===

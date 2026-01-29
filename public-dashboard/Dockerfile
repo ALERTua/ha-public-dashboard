@@ -31,6 +31,10 @@ RUN npm install && npm run build
 RUN chmod +x /etc/services.d/*/run
 
 # Install Python requirements
+ENV \
+    UV_NO_DEV=1 \
+    UV_COMPILE_BYTECODE=1
+
 WORKDIR /app
 RUN uv sync --frozen --no-dev
 
