@@ -4,7 +4,18 @@ import Icon from '@mdi/react';
 import * as mdiIcons from '@mdi/js';
 import './App.css';
 
-const API_BASE = process.env.REACT_APP_API_URL || '';
+// Detect if running through Home Assistant ingress and adjust API base
+const getApiBase = () => {
+  // Check if we're running through HA ingress
+  if (window.location.pathname.includes('/api/hassio_ingress/')) {
+    // Use relative paths to stay within ingress context
+    return '.';
+  }
+  // Use configured API URL or default to empty string for relative paths
+  return process.env.REACT_APP_API_URL || '';
+};
+
+const API_BASE = getApiBase();
 
 const getDisplayIcon = (iconString) => {
   if (!iconString?.startsWith('mdi:')) {
