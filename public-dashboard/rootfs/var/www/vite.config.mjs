@@ -17,8 +17,6 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
-    // Set base to handle both direct access and ingress paths
-    base: './'
+    sourcemap: true
   }
 })
