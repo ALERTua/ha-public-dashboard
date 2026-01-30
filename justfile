@@ -40,6 +40,7 @@ be-dev:
 
 # Run pre-commit
 lint:
+    uv run ruff check --fix
     uv run pre-commit run --all-files
 
 # Install backend dependencies
