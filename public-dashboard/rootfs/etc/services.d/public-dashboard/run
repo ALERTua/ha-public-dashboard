@@ -4,6 +4,7 @@ bashio::log.info "Starting Public Dashboard backend..."
 
 # Get configuration
 ADMIN_PASSWORD=$(bashio::config 'admin_password')
+SUPERADMIN_PASSWORD=$(bashio::config 'superadmin_password')
 LOG_LEVEL=$(bashio::config 'log_level')
 
 # Debug token availability
@@ -11,6 +12,7 @@ bashio::log.info "SUPERVISOR_TOKEN available: $([ -n "$SUPERVISOR_TOKEN" ] && ec
 
 # Export environment variables for Home Assistant integration
 export ADMIN_PASSWORD
+export SUPERADMIN_PASSWORD
 export LOG_LEVEL
 export HA_URL="http://supervisor/core"
 export HA_TOKEN="${SUPERVISOR_TOKEN}"
