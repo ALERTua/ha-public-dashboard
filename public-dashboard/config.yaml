@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Public Dashboard
-version: "0.0.6"
+version: "0.0.7"
 slug: public-dashboard
 description: A secure, dynamic dashboard for building systems with admin entity management
 url: "https://github.com/ALERTua/ha-public-dashboard/tree/main/public-dashboard"
