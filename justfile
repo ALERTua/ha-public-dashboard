@@ -56,7 +56,9 @@ start: fe-clean fe-install fe-build be-install
 
 # Update version across all files
 version VERSION:
-    uv run python scripts/update_version.py {{VERSION}}
+    uv run python script/update_version.py {{VERSION}}
+    just fe-install
+    just fe-build
 
 # Show available commands
 help:
