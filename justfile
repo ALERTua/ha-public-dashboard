@@ -24,7 +24,6 @@ fe-build-win:
 # Clean node_modules and reinstall
 fe-clean:
     rmdir /s /q public-dashboard\rootfs\var\www\node_modules 2>nul || echo "node_modules not found"
-    del public-dashboard\rootfs\var\www\package-lock.json 2>nul || echo "package-lock.json not found"
     just fe-install
 
 # Test frontend build
@@ -35,7 +34,7 @@ fe-test: fe-build
 
 # Install backend dependencies
 be-install:
-    uv sync
+    uv --directory public-dashboard/rootfs/app sync
 
 # Start backend server
 be-start:
@@ -51,7 +50,7 @@ lint:
 
 # Install pre-commit hooks
 be-setup:
-    uv sync --dev
+    uv --directory public-dashboard/rootfs/app sync --dev
 
 # === COMBINED COMMANDS ===
 
