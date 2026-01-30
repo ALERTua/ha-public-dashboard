@@ -35,7 +35,6 @@ A mobile-first dashboard that allows:
 - Public access to building status without login
 - Admin management of entities and controls
 - Custom links and information sections
-- Ukrainian interface with emoji icons
 
 ## Access Methods
 
