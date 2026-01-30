@@ -35,5 +35,6 @@ repos:
     rev: v0.24.1
     hooks:
       - id: validate-pyproject
+        args: [public-dashboard/rootfs/app/pyproject.toml]
         # Optional extra validations from SchemaStore:
         additional_dependencies: [ "validate-pyproject-schema-store[all]" ]
