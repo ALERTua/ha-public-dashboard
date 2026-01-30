@@ -1,17 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Get base path from environment variable or use default
-const basePath = process.env.VITE_BASE_PATH || '/'
-
-// Get API URL from environment variable or use default
-const apiUrl = process.env.VITE_API_URL || ''
-
+// For Home Assistant ingress, use relative paths
+// This ensures assets work correctly with the ingress proxy system
 export default defineConfig({
   plugins: [react()],
-  base: basePath,
+  base: './',  // Use relative paths for all assets
   define: {
-    'import.meta.env.VITE_API_URL': JSON.stringify(apiUrl)
+    'import.meta.env.VITE_API_URL': JSON.stringify('')  // Use relative API paths
   },
   resolve: {
     conditions: ['module', 'browser', 'development|production']
@@ -27,6 +23,14 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        // Ensure all asset references use relative paths
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+      }
+    }
   }
 })

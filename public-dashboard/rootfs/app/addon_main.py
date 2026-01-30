@@ -12,7 +12,7 @@ import httpx
 import jwt
 import yaml
 from dotenv import load_dotenv
-from fastapi import Depends, FastAPI, HTTPException, Response
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -33,29 +33,14 @@ JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_HOURS = 24
 
 
-# Detect if running through Home Assistant ingress and set base path
-# This is used by Vite to generate correct asset paths
-def detect_base_path() -> str:
-    """Detect the base path for the application."""
-    # Check if we're running through HA ingress by looking at environment variables
-    # Home Assistant sets these when running through ingress
-    ingress_path = os.getenv("INGRESS_PATH", "")
-    if ingress_path:
-        # Ensure it ends with a slash
-        return ingress_path if ingress_path.endswith("/") else f"{ingress_path}/"
-
-    # Default to root path
-    return "/"
-
-
-# Set the base path environment variable for Vite
-BASE_PATH = detect_base_path()
+# For Home Assistant ingress, use relative paths
+# The ingress system will handle the base path routing automatically
+BASE_PATH = "/"
 os.environ["VITE_BASE_PATH"] = BASE_PATH
 logger.info("Setting VITE_BASE_PATH to: %s", BASE_PATH)
 
-# Set API URL environment variable for Vite
-# When running through ingress, API calls should be relative
-API_URL = "." if BASE_PATH != "/" else ""
+# For ingress, API calls should be relative to avoid path issues
+API_URL = ""
 os.environ["VITE_API_URL"] = API_URL
 logger.info("Setting VITE_API_URL to: %s", API_URL)
 
@@ -104,22 +89,20 @@ security = HTTPBearer()
 # Serve static files - check if directory exists first
 www_src_dir = Path(WWW_SRC_DIR)
 if www_src_dir.exists():
-    # Mount at base path + /src
-    app.mount(
-        f"{BASE_PATH}src", StaticFiles(directory=www_src_dir.absolute()), name="src"
-    )
+    # Mount at /src for direct access
+    app.mount("/src", StaticFiles(directory=www_src_dir.absolute()), name="src")
+    logger.info("Mounted source files at /src")
 else:
     logger.warning("WWW_SRC_DIR not found: %s", www_src_dir)
 
 # Serve built static files
 static_dir = Path(WWW_PUBLIC_DIR) / "assets"
 if static_dir.exists():
-    # Mount at base path + /assets
-    app.mount(
-        f"{BASE_PATH}assets",
-        StaticFiles(directory=static_dir.absolute()),
-        name="assets",
-    )
+    # Mount at /assets for direct access
+    app.mount("/assets", StaticFiles(directory=static_dir.absolute()), name="assets")
+    logger.info("Mounted static assets at /assets")
+    logger.info("Static files directory: %s", static_dir.absolute())
+    logger.info("Files in assets directory: %s", list(static_dir.glob("*"))[:5])
 else:
     logger.warning("Static files not found: %s", static_dir)
 
@@ -131,6 +114,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -377,7 +361,7 @@ def get_entity_icon(entity_id: str, attributes: dict) -> str:
 
 
 # API Endpoints
-@app.post(f"{BASE_PATH}api/login")
+@app.post("/api/login")
 async def login(request: LoginRequest) -> TokenResponse:
     """User login endpoint."""
     user = USERS_DB.get(request.username)
@@ -389,7 +373,7 @@ async def login(request: LoginRequest) -> TokenResponse:
     return TokenResponse(access_token=access_token, token_type="bearer")  # noqa: S106
 
 
-@app.get(f"{BASE_PATH}api/me")
+@app.get("/api/me")
 async def get_me(
     user: Annotated[dict | None, Depends(get_optional_user)] = None,
 ) -> dict:
@@ -399,7 +383,7 @@ async def get_me(
     return {"authenticated": True, "username": user["username"], "role": user["role"]}
 
 
-@app.get(f"{BASE_PATH}api/dashboard")
+@app.get("/api/dashboard")
 async def get_user_dashboard() -> dict:
     """Get user dashboard entities (public access)."""
     try:
@@ -428,7 +412,7 @@ async def get_user_dashboard() -> dict:
         raise HTTPException(status_code=503, detail="Service unavailable") from None
 
 
-@app.get(f"{BASE_PATH}api/admin/dashboard")
+@app.get("/api/admin/dashboard")
 async def get_admin_dashboard(_admin: Annotated[dict, Depends(require_admin)]) -> dict:
     """Get admin dashboard entities."""
     try:
@@ -653,16 +637,7 @@ async def read_index() -> FileResponse | dict:
     """Serve the main index.html file."""
     index_file = Path(WWW_PUBLIC_DIR) / "index.html"
     if index_file.exists():
-        # Read the HTML file and inject the base path
-        try:
-            html_content = index_file.read_text(encoding="utf-8")
-            # Replace the base path in the HTML
-            modified_html = html_content.replace('href="/', f'href="{BASE_PATH}')
-            modified_html = modified_html.replace('src="/', f'src="{BASE_PATH}')
-            return Response(content=modified_html, media_type="text/html")
-        except Exception:
-            logger.exception("Failed to modify HTML")
-            return FileResponse(str(index_file))
+        return FileResponse(str(index_file))
     return {"error": "index.html not found", "path": str(index_file)}
 
 
