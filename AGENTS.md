@@ -100,6 +100,7 @@ docker run -p 8000:8000 public-dashboard
 ## 🚫 Boundaries & Constraints
 
 ### ✅ Always Do
+- Be concise, specific, and value dense
 - **Check OS first**: Detect platform before generating commands
 - **Use pathlib**: For all file path operations
 - **Handle errors**: Gracefully handle missing files/directories
@@ -146,8 +147,6 @@ Path Transformation:
 - Addon should serve assets from root paths (`/assets/`, not `/ingress/assets/`)
 - Relative paths in HTML work with ingress routing
 - Never try to detect or reconstruct ingress path
-
-## 🔍 Debugging Guide
 
 ### Debugging Checklist
 
