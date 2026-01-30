@@ -166,19 +166,7 @@ Path Transformation:
    print(f"Shell: {shell}")
    ```
 
-3. **Path Verification**
-   ```python
-   from pathlib import Path
-   paths = [
-       Path("rootfs/var/www"),
-       Path("rootfs/app"),
-       Path("dist/assets")
-   ]
-   for path in paths:
-       print(f"{path}: exists={path.exists()}, absolute={path.absolute()}")
-   ```
-
-4. **Command Testing**
+3. **Command Testing**
    ```bash
    # Test if commands are available
    npm --version
