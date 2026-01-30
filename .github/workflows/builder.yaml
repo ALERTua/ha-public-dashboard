@@ -2,7 +2,12 @@ name: Builder
 
 env:
   BUILD_ARGS: ""
-  MONITORED_FILES: "build.yaml config.yaml Dockerfile rootfs"
+  # Only monitor files that actually affect the build output
+  # Frontend changes: React source, package.json, vite config
+  # Backend changes: Python source, requirements
+  # Infrastructure: Dockerfile, build config
+  # Exclude: Documentation, icons, static assets that don't change build
+  MONITORED_FILES: "build.yaml config.yaml Dockerfile rootfs/app/addon_main.py rootfs/app/pyproject.toml rootfs/var/www/package.json rootfs/var/www/vite.config.mjs rootfs/var/www/src"
 
 on:
   push:
