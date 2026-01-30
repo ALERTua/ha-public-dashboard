@@ -113,7 +113,14 @@ USERS_DB = {
         "username": "admin",
         "hashed_password": hash_password(os.getenv("ADMIN_PASSWORD", "admin123")),
         "role": "admin",
-    }
+    },
+    "superadmin": {
+        "username": "superadmin",
+        "hashed_password": hash_password(
+            os.getenv("SUPERADMIN_PASSWORD", "superadmin123")
+        ),
+        "role": "superadmin",
+    },
 }
 
 
@@ -225,8 +232,15 @@ def get_current_user(
 
 def require_admin(user: Annotated[dict, Depends(get_current_user)]) -> dict:
     """Require admin role."""
-    if user["role"] != "admin":
+    if user["role"] not in ["admin", "superadmin"]:
         raise HTTPException(status_code=403, detail="Admin access required")
+    return user
+
+
+def require_superadmin(user: Annotated[dict, Depends(get_current_user)]) -> dict:
+    """Require superadmin role."""
+    if user["role"] != "superadmin":
+        raise HTTPException(status_code=403, detail="Superadmin access required")
     return user
 
 
@@ -408,7 +422,7 @@ async def get_admin_dashboard(_admin: Annotated[dict, Depends(require_admin)]) -
 
 @app.get("/api/admin/entities/search")
 async def search_entities(
-    query: str = "", _admin: Annotated[dict | None, Depends(require_admin)] = None
+    query: str = "", _admin: Annotated[dict | None, Depends(require_superadmin)] = None
 ) -> dict:
     """Search available HA entities."""
     try:
@@ -440,7 +454,7 @@ async def search_entities(
 
 @app.post("/api/admin/entities/add")
 async def add_entity(
-    request: AddEntityRequest, admin: Annotated[dict, Depends(require_admin)]
+    request: AddEntityRequest, admin: Annotated[dict, Depends(require_superadmin)]
 ) -> dict:
     """Add entity to dashboard."""
     try:
@@ -485,7 +499,7 @@ async def add_entity(
 async def remove_entity(
     entity_id: str,
     dashboard: str,
-    admin: Annotated[dict, Depends(require_admin)],
+    admin: Annotated[dict, Depends(require_superadmin)],
 ) -> dict:
     """Remove entity from dashboard."""
     try:
@@ -521,7 +535,7 @@ async def get_links() -> dict:
 
 @app.post("/api/admin/links/add")
 async def add_link(
-    request: AddLinkRequest, admin: Annotated[dict, Depends(require_admin)]
+    request: AddLinkRequest, admin: Annotated[dict, Depends(require_superadmin)]
 ) -> dict:
     """Add link."""
     try:
@@ -540,7 +554,7 @@ async def add_link(
 
 @app.delete("/api/admin/links/{link_index}")
 async def remove_link(
-    link_index: int, admin: Annotated[dict, Depends(require_admin)]
+    link_index: int, admin: Annotated[dict, Depends(require_superadmin)]
 ) -> dict | None:
     """Remove link."""
     try:

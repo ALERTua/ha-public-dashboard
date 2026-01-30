@@ -15,7 +15,7 @@ This repository contains the following add-on:
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
-A secure, dynamic dashboard for building systems with admin entity management.
+A secure, dynamic dashboard for building systems with multi-role admin entity management.
 
 ## Installation
 
@@ -31,10 +31,30 @@ https://github.com/ALERTua/ha-public-dashboard
 
 ### Public Dashboard
 
-A mobile-first dashboard that allows:
-- Public access to building status without login
-- Admin management of entities and controls
-- Custom links and information sections
+A mobile-first dashboard with advanced role-based access control that allows:
+
+#### Public Access
+- View building status without authentication
+- Access to user-configured entities and sensors
+- Real-time status updates every 30 seconds
+
+#### Role-Based Access Control
+- **User Role**: Public access to configured entities only
+- **Admin Role**: Full access to admin dashboard, entity control, and basic management
+- **Superadmin Role**: Complete system management including entity configuration and link management
+
+#### Admin Features
+- Toggle controllable entities (switches, lights, input_boolean)
+- View admin-only entities with enhanced controls
+- Search and manage Home Assistant entities
+- Add/remove entities from user and admin dashboards
+- Manage custom links and information sections
+
+#### Security Features
+- JWT-based authentication
+- Role-based API endpoints
+- Secure password hashing (SHA256)
+- Configurable admin and superadmin passwords
 
 ## Access Methods
 
@@ -54,6 +74,61 @@ The add-on supports multiple access methods:
 - Point your reverse proxy to `http://YOUR_HA_IP:8000`
 - Supports external domain access
 - Compatible with nginx, Traefik, etc.
+
+## Configuration
+
+### Basic Configuration
+```yaml
+admin_password: "your_admin_password"
+superadmin_password: "your_superadmin_password"
+log_level: "info"
+ssl: false
+```
+
+### Default Credentials
+- **Admin**: username `admin`, password `admin123`
+- **Superadmin**: username `superadmin`, password `superadmin123`
+
+### Environment Variables
+- `ADMIN_PASSWORD`: Admin password (default: admin123)
+- `SUPERADMIN_PASSWORD`: Superadmin password (default: superadmin123)
+- `HA_URL`: Home Assistant URL (default: http://supervisor/core)
+- `JWT_EXPIRE_HOURS`: JWT token expiration (default: 24 hours)
+
+## Development
+
+### Local Development Setup
+```bash
+# Install frontend dependencies
+just fe-install
+
+# Start frontend development server
+just fe-dev
+
+# Build for production
+just fe-build
+
+# Combined setup and start
+just start
+```
+
+### Backend Development
+```bash
+# Install backend dependencies
+just be-install
+
+# Start backend server
+just be-start
+
+# Start with development mode
+just be-dev
+```
+
+### Available Commands
+- `just start`: Complete setup with frontend and backend
+- `just fe-clean`: Clean and reinstall frontend dependencies
+- `just version <VERSION>`: Update version across all files
+- `just lint`: Run pre-commit checks
 
 ## Support
 

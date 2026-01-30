@@ -7,23 +7,25 @@ set dotenv-load
 
 # Install frontend dependencies
 fe-install:
-    pushd public-dashboard\rootfs\var\www && npm install & popd
+    npm --prefix public-dashboard/rootfs/var/www install
 
 # Start frontend development server
 fe-dev:
-    pushd public-dashboard\rootfs\var\www && npm start & popd
+    npm --prefix public-dashboard/rootfs/var/www start
 
 # Build frontend for production
 fe-build:
-    pushd public-dashboard\rootfs\var\www && npm run build & popd
+    npm --prefix public-dashboard/rootfs/var/www run build
 
 # Build frontend for production (Windows with PUBLIC_URL)
 fe-build-win:
-    pushd public-dashboard\rootfs\var\www && set PUBLIC_URL=. && npm run build & popd
+    rmdir /s /q public-dashboard\rootfs\var\www\build 2>nul
+    set PUBLIC_URL=.
+    npm --prefix public-dashboard/rootfs/var/www run build
 
 # Clean node_modules and reinstall
 fe-clean:
-    rmdir /s /q public-dashboard\rootfs\var\www\node_modules 2>nul || echo "node_modules not found"
+    rmdir /s /q public-dashboard\rootfs\var\www\node_modules 2>nul
     just fe-install
 
 # Test frontend build
@@ -38,11 +40,11 @@ be-install:
 
 # Start backend server
 be-start:
-    uv run public-dashboard\rootfs\app\addon_main.py
+    uv run public-dashboard/rootfs/app/addon_main.py
 
 # Start backend with development mode (uses .env)
 be-dev:
-    pushd public-dashboard\rootfs\app && uv run addon_main.py & popd
+    uv run python public-dashboard/rootfs/app/addon_main.py
 
 # Run pre-commit
 lint:
@@ -55,14 +57,14 @@ be-setup:
 # === COMBINED COMMANDS ===
 
 # Combined setup command
-start: fe-install be-setup
-    @echo "Run 'just be-start' in one terminal and 'just fe-dev' in another"
+start: fe-clean fe-install fe-build-win be-setup
+    @echo Run 'just be-start' in one terminal and 'just fe-dev' in another
 
 # === UTILITY COMMANDS ===
 
 # Update version across all files
 version VERSION:
-    uv run python scripts\update_version.py {{VERSION}}
+    uv run python scripts/update_version.py {{VERSION}}
 
 # Show available commands
 help:
