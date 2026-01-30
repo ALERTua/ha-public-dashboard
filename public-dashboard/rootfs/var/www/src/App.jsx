@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Icon from '@mdi/react';
 import * as mdiIcons from '@mdi/js';
-import './App.css';
 
 // Detect if running through Home Assistant ingress and adjust API base
 const getApiBase = () => {

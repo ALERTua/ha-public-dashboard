@@ -31,7 +31,7 @@ JWT_EXPIRE_HOURS = 24
 
 # Path configuration - use environment variables for flexibility
 WWW_SRC_DIR = os.getenv("WWW_SRC_DIR", "/var/www/src")
-WWW_PUBLIC_DIR = os.getenv("WWW_PUBLIC_DIR", "/var/www/build")
+WWW_PUBLIC_DIR = os.getenv("WWW_PUBLIC_DIR", "/var/www/dist")
 CONFIG_DIR = os.getenv("CONFIG_DIR", "/config")
 CONFIG_FILE = str(Path(CONFIG_DIR) / "public_dashboard_config.yaml")
 
@@ -80,9 +80,9 @@ else:
     logger.warning("WWW_SRC_DIR not found: %s", www_src_dir)
 
 # Serve built static files
-static_dir = Path(WWW_PUBLIC_DIR) / "static"
+static_dir = Path(WWW_PUBLIC_DIR) / "assets"
 if static_dir.exists():
-    app.mount("/static", StaticFiles(directory=static_dir.absolute()), name="static")
+    app.mount("/assets", StaticFiles(directory=static_dir.absolute()), name="assets")
 else:
     logger.warning("Static files not found: %s", static_dir)
 
