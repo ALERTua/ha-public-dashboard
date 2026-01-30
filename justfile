@@ -40,6 +40,7 @@ be:
 
 # Run pre-commit
 lint:
+    uv run ruff format .
     uv run ruff check --fix
 
 pre:
