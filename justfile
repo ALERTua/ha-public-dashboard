@@ -59,6 +59,7 @@ version VERSION:
     uv run python script/update_version.py {{VERSION}}
     just fe-install
     just fe-build
+    just lint
 
 # Show available commands
 help:
