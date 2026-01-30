@@ -19,7 +19,7 @@ fe-install:
     npm --prefix {{frontend_path}} install
 
 # Start frontend development server
-fe-dev:
+fe:
     npm --prefix {{frontend_path}} run dev
 
 # Build frontend for production
@@ -35,7 +35,7 @@ fe-clean:
 # === BACKEND COMMANDS ===
 
 # Start backend with development mode (uses .env)
-be-dev:
+be:
     uv run python {{backend_path}}/addon_main.py
 
 # Run pre-commit
@@ -53,7 +53,7 @@ be-install:
 
 # Combined setup command
 start: fe-clean fe-install fe-build be-install
-    Write-Host "Run 'just be-dev' in one terminal and 'just fe-dev' in another"
+    Write-Host "Run 'just be' in one terminal and 'just fe' in another"
 
 # === UTILITY COMMANDS ===
 
