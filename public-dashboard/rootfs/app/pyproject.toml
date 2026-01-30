@@ -8,9 +8,8 @@ dependencies = [
     "uvicorn[standard]",
     "httpx",
     "pydantic",
-    "python-jose[cryptography]",
     "python-multipart",
     "pyyaml",
     "python-dotenv",
-    "passlib[bcrypt]",
+    "pyjwt",
 ]

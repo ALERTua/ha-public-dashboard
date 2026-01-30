@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Annotated, Any
 
 import httpx
+import jwt
 import yaml
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException
@@ -16,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.staticfiles import StaticFiles
-from jose import JWTError, jwt
+from jwt.exceptions import InvalidTokenError as JWTError
 from pydantic import BaseModel
 
 # Load environment variables from .env file
