@@ -41,6 +41,8 @@ be-dev:
 # Run pre-commit
 lint:
     uv run ruff check --fix
+
+pre:
     uv run pre-commit run --all-files
 
 # Install backend dependencies
@@ -61,6 +63,7 @@ version VERSION:
     just fe-install
     just fe-build
     just lint
+    just pre
 
 # Show available commands
 help:
