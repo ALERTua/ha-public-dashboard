@@ -11,7 +11,7 @@ const getApiBase = () => {
         return '.';
     }
     // Use configured API URL or default to empty string for relative paths
-    return process.env.REACT_APP_API_URL || '';
+    return import.meta.env.VITE_API_URL || '';
 };
 
 const API_BASE = getApiBase();

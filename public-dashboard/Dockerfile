@@ -25,6 +25,9 @@ COPY rootfs /
 
 # Build React app
 WORKDIR /var/www
+# Set environment variables for Vite build
+ENV VITE_BASE_PATH="/"
+ENV VITE_API_URL="."
 RUN npm install && npm run build
 
 # Set execute permissions for service scripts
