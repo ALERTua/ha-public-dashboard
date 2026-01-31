@@ -4,7 +4,13 @@ import react from '@vitejs/plugin-react'
 // For Home Assistant ingress, use relative paths
 // This ensures assets work correctly with the ingress proxy system
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxImportSource: 'react',
+      jsxRuntime: 'automatic',
+      include: ['**/*.jsx', '**/*.js', '**/*.ts', '**/*.tsx']
+    })
+  ],
   base: './',  // Use relative paths for all assets
   define: {
     'import.meta.env.VITE_API_URL': JSON.stringify('')  // Use relative API paths
