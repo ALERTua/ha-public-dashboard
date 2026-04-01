@@ -46,9 +46,15 @@ lint:
 pre:
     uv run pre-commit run --all-files
 
+pre-update:
+    uv run pre-commit autoupdate
+
 # Install backend dependencies
 be-install:
     uv --directory {{backend_path}} sync --dev
+
+be-install-upgrade:
+    uv --directory {{backend_path}} sync --dev --upgrade
 
 # === COMBINED COMMANDS ===
 
