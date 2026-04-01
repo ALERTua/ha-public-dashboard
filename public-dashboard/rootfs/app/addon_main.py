@@ -309,7 +309,7 @@ class HAClient:
 
     async def toggle_entity(self, entity_id: str, action: str = "toggle") -> None:
         """Toggle entity state."""
-        domain = entity_id.split(".")[0]
+        domain = entity_id.split(".", maxsplit=1)[0]
         if domain not in ["switch", "input_boolean", "light"]:
             raise HTTPException(status_code=400, detail="Entity not controllable")
 
@@ -339,13 +339,13 @@ def _raise_link_not_found_error() -> None:
 
 def is_controllable_entity(entity_id: str) -> bool:
     """Check if entity is controllable."""
-    domain = entity_id.split(".")[0]
+    domain = entity_id.split(".", maxsplit=1)[0]
     return domain in ["switch", "input_boolean", "light"]
 
 
 def get_entity_icon(entity_id: str, attributes: dict) -> str:
     """Get entity icon."""
-    domain = entity_id.split(".")[0]
+    domain = entity_id.split(".", maxsplit=1)[0]
     if "icon" in attributes:
         return attributes["icon"]
 
