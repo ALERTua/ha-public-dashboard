@@ -70,7 +70,7 @@ version VERSION:
     just fe-install
     just fe-build
     just lint
-    just pre
+    just pre || just pre
 
 # Show available commands
 help:
