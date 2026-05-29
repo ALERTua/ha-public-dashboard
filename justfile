@@ -32,6 +32,11 @@ fe-clean:
     if (Test-Path "{{frontend_path}}/node_modules") { Remove-Item -Recurse -Force "{{frontend_path}}/node_modules" }
     just fe-install
 
+# Upgrade frontend npm packages to their latest versions and write them to package.json
+fe-upgrade:
+    npx --yes npm-check-updates --cwd {{frontend_path}} -u
+    just fe-install
+
 # === BACKEND COMMANDS ===
 
 # Start backend with development mode (uses .env)

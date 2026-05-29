@@ -1,7 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import Icon from '@mdi/react';
+import mdiReact from '@mdi/react';
 import * as mdiIcons from '@mdi/js';
+
+// @mdi/react@1.6.1 ships a webpack-built CJS bundle. Under Vite's ESM interop the
+// default import can resolve to the export object ({Icon, Stack, default}) rather
+// than the Icon component itself, so unwrap it defensively.
+const Icon = mdiReact.default ?? mdiReact;
 
 // Detect if running through Home Assistant ingress and adjust API base
 const getApiBase = () => {
