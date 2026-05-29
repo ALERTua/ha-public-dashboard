@@ -1,6 +1,6 @@
 {
   "name": "building-dashboard",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "homepage": "./",
   "private": true,
   "type": "module",

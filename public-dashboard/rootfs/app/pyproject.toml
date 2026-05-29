@@ -1,6 +1,6 @@
 [project]
 name = "public-dashboard"
-version = "0.0.15"
+version = "0.0.16"
 description = "A secure, dynamic dashboard for building systems with admin entity management"
 requires-python = "==3.14.*"
 dependencies = [
