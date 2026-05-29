@@ -63,6 +63,9 @@ be-install-upgrade:
 
 # === COMBINED COMMANDS ===
 
+upgrade: pre-update fe-upgrade be-install-upgrade
+    Write-Host ""
+
 # Combined setup command
 start: fe-clean fe-install fe-build be-install
     Write-Host "Run 'just be' in one terminal and 'just fe' in another"
