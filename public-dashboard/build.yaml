@@ -6,5 +6,5 @@ labels:
   org.opencontainers.image.description: "A secure, dynamic dashboard for building systems with admin entity management"
   org.opencontainers.image.source: "https://github.com/ALERTua/ha-public-dashboard"
   org.opencontainers.image.licenses: "MIT"
-#args:
-#  TEMPIO_VERSION: "2021.09.0"
+args:
+  TEMPIO_VERSION: "2026.05.0"
