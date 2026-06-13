@@ -7,15 +7,15 @@
   "dependencies": {
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
-    "axios": "^1.16.1",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "axios": "^1.17.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.2",
-    "vite": "^7.3.2"
+    "@vitejs/plugin-react": "^6.0.2",
+    "vite": "^8.0.16"
   },
   "scripts": {
     "dev": "vite",
