@@ -153,6 +153,7 @@ Path Transformation:
 1. **OS Detection**
    ```python
    import platform
+
    print(f"OS: {platform.system()}")
    print(f"Release: {platform.release()}")
    print(f"Version: {platform.version()}")
@@ -161,7 +162,8 @@ Path Transformation:
 2. **Shell Detection**
    ```python
    import os
-   shell = os.getenv('SHELL') or os.getenv('COMSPEC')
+
+   shell = os.getenv("SHELL") or os.getenv("COMSPEC")
    print(f"Shell: {shell}")
    ```
 

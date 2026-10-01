@@ -282,7 +282,7 @@ class HAClient:
         async with httpx.AsyncClient() as client:
             response = await client.get(url, headers=self.headers)
             if response.status_code != 200:  # noqa: PLR2004
-                logger.exception(
+                logger.error(
                     "HA request failed: %s - %s", response.status_code, response.text
                 )
                 raise HTTPException(
@@ -299,7 +299,7 @@ class HAClient:
             if response.status_code == 404:  # noqa: PLR2004
                 raise HTTPException(status_code=404, detail="Entity not found")
             if response.status_code != 200:  # noqa: PLR2004
-                logger.exception(
+                logger.error(
                     "HA request failed: %s - %s", response.status_code, response.text
                 )
                 raise HTTPException(
