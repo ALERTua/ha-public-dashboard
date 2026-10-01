@@ -56,10 +56,10 @@ pre-update:
 
 # Install backend dependencies
 be-install:
-    uv --directory {{backend_path}} sync --dev
+    uv --directory {{backend_path}} sync --all-groups
 
 be-install-upgrade:
-    uv --directory {{backend_path}} sync --dev --upgrade
+    uv --directory {{backend_path}} sync --all-groups --upgrade
 
 # === COMBINED COMMANDS ===
 

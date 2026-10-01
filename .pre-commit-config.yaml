@@ -17,7 +17,7 @@ repos:
     - id: trailing-whitespace
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.20
+    rev: v0.16.9
     hooks:
       - id: ruff
         args: [--fix]
@@ -25,14 +25,14 @@ repos:
 
   # https://docs.astral.sh/uv/guides/integration/pre-commit/
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.11.26
+    rev: 0.12.21
     hooks:
 #      - id: uv-lock  # https://github.com/astral-sh/uv/issues/9150
       - id: uv-lock
         args: [--directory, public-dashboard/rootfs/app]
 
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.25
+    rev: '0.26'
     hooks:
       - id: validate-pyproject
         args: [public-dashboard/rootfs/app/pyproject.toml]
