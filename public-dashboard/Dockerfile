@@ -10,7 +10,7 @@ LABEL \
     org.opencontainers.image.title="Public Dashboard" \
     org.opencontainers.image.description="A secure, dynamic dashboard for building systems with admin entity management" \
     org.opencontainers.image.source="https://github.com/ALERTua/ha-public-dashboard" \
-    org.opencontainers.image.licenses="MIT"
+    org.opencontainers.image.licenses="GPL-3.0"
 
 # Install requirements for add-on
 RUN \
