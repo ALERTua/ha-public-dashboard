@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: uv
+    directory: "/public-dashboard/rootfs/app"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: npm
+    directory: "/public-dashboard/rootfs/var/www"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: docker
+    directory: "/public-dashboard"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: docker
+    directory: "/public-dashboard/rootfs/var/www"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns: ["*"]
