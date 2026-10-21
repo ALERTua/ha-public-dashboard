@@ -28,7 +28,7 @@ jobs:
       changed: ${{ steps.changed_addons.outputs.changed }}
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Get changed files
         id: changed_files
@@ -76,7 +76,7 @@ jobs:
         arch: ["amd64"]  # "aarch64",  # TODO: Unpause
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Get information
         id: info
@@ -107,7 +107,7 @@ jobs:
 
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true'
-        uses: home-assistant/builder@2026.03.2
+        uses: home-assistant/builder@2026.09.0
         with:
           args: |
             ${{ env.BUILD_ARGS }} \
