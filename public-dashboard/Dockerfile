@@ -1,13 +1,16 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
-ARG BUILD_FROM
-FROM $BUILD_FROM
+# https://contributors.home-assistant.io/blog/2026/04/02/builder-migration/
+FROM ghcr.io/home-assistant/base:latest
 
-# Execute during the build of the image
-ARG TEMPIO_VERSION BUILD_ARCH
-RUN \
-    curl -sSLf -o /usr/bin/tempio \
-    "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
-    && chmod a+x /usr/bin/tempio
+LABEL \
+    io.hass.type="addon" \
+    io.hass.name="Public Dashboard" \
+    io.hass.description="A secure, dynamic dashboard for building systems with admin entity management" \
+    io.hass.url="https://github.com/ALERTua/ha-public-dashboard/tree/main/public-dashboard" \
+    org.opencontainers.image.title="Public Dashboard" \
+    org.opencontainers.image.description="A secure, dynamic dashboard for building systems with admin entity management" \
+    org.opencontainers.image.source="https://github.com/ALERTua/ha-public-dashboard" \
+    org.opencontainers.image.licenses="MIT"
 
 # Install requirements for add-on
 RUN \

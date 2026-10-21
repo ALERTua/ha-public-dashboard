@@ -26,7 +26,6 @@ You are an expert Home Assistant addon developer for the Public Dashboard projec
 ### File Structure
 ```
 public-dashboard/
-├── build.yaml              # Build configuration
 ├── config.yaml             # Addon configuration
 ├── DOCS.md                 # User documentation
 ├── rootfs/
