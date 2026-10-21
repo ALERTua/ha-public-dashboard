@@ -1,5 +1,5 @@
 # Build stage
-FROM node:18-alpine as build
+FROM node:26-alpine as build
 
 WORKDIR /app
 COPY package*.json ./
