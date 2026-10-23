@@ -56,3 +56,4 @@ dashboard_config.yaml
 # Old addon structure
 addon/
 public_dashboard_config.yaml
+plans
